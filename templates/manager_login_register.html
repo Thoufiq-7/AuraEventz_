@@ -1,200 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Font Awesome for icons -->
-  <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-
-  <!-- REQUIRED: Firebase Client SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-
-  <!-- CSS Link -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/manager_login_register.css') }}" />
-  <title>Manager Sign In & Sign Up</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manager_login_register.css') }}" />
+    <title>Manager Portal - AuraEventz</title>
 </head>
-
 <body>
-  <div class="container">
-    <div class="forms-container">
-      <div class="signin-signup">
+    <div class="container">
+        <div class="forms-container">
+            <div class="signin-signup">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div style="position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 100%; text-align: center; z-index: 100;">
+                    {% for category, message in messages %}
+                    <div style="padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; color: #1f2937; background-color: {% if category == 'success' %}#d1fae5{% elif category == 'danger' %}#fee2e2{% else %}#e0e7ff{% endif %};">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
 
-        <!-- FLASH MESSAGES CONTAINER -->
-        <!-- Using inline Tailwind for simple, visible flash messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <div class="flash-messages absolute top-0 left-0 right-0 p-4 text-center z-50">
-          {% for category, message in messages %}
-          <div
-            class="p-3 mb-2 rounded-lg {% if category == 'success' %}bg-green-100 text-green-800{% elif category == 'danger' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
-            {{ message }}
-          </div>
-          {% endfor %}
+                <form action="{{ url_for('manager_login') }}" method="POST" class="sign-in-form" id="manager-sign-in-form">
+                    <h2 class="title">Manager Sign in</h2>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Email" id="signin-email" required />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Password" id="signin-password" required />
+                    </div>
+                    <input type="submit" value="Login" class="btn solid" />
+                    <input type="hidden" name="id_token" id="signin-id-token" />
+                </form>
+
+                <form action="{{ url_for('manager_register') }}" method="POST" class="sign-up-form">
+                    <h2 class="title">Manager Sign up</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Username" name="username" required />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Email" name="email" required />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Password" name="password" required />
+                    </div>
+                    <input type="submit" class="btn" value="Sign up" />
+                </form>
+            </div>
         </div>
-        {% endif %}
-        {% endwith %}
 
-        <!-- SIGN IN FORM (Login) -->
-        <form action="{{ url_for('manager_login') }}" method="POST" class="sign-in-form" id="worker-sign-in-form">
-          <h2 class="title">Manager Sign in</h2>
-          <div class="input-field">
-            <i class="fas fa-envelope"></i>
-            <input type="email" placeholder="Email" name="email" id="signin-email" required />
-          </div>
-          <div class="input-field">
-            <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" name="password" id="signin-password" required />
-          </div>
-          <input type="submit" value="Login" class="btn solid" />
-
-          <!-- CRITICAL: HIDDEN FIELD to send the ID Token back to Flask -->
-          <input type="hidden" name="id_token" id="signin-id-token" />
-
-          <p class="social-text">Or Sign in with social platforms</p>
-          <div class="social-media">
-            <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
-          </div>
-        </form>
-
-        <!-- SIGN UP FORM (Registration) -->
-        <form action="{{ url_for('manager_register') }}" method="POST" class="sign-up-form" id="worker-sign-up-form">
-          <h2 class="title">Manager Sign up</h2>
-          <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="Username (Display Name)" name="username" id="signup-username" required />
-          </div>
-          <div class="input-field">
-            <i class="fas fa-envelope"></i>
-            <input type="email" placeholder="Email" name="email" id="signup-email" required />
-          </div>
-          <div class="input-field">
-            <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" name="password" id="signup-password" required />
-          </div>
-          <!-- Submits email/password to Flask, which uses Admin SDK for creation/claims -->
-          <input type="submit" class="btn" value="Sign up" />
-
-          <p class="social-text">Or Sign up with social platforms</p>
-          <div class="social-media">
-            <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
-          </div>
-        </form>
-      </div>
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>New to AuraEventz?</h3>
+                    <p>
+                        Register now to post jobs, find the perfect talent, and manage your events seamlessly from start to finish!
+                    </p>
+                    <button class="btn transparent" id="sign-up-btn">Sign up</button>
+                </div>
+                
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>Already One of Us?</h3>
+                    <p>
+                        Welcome back! Sign in to access your dashboard and continue managing your successful events with AuraEventz.
+                    </p>
+                    <button class="btn transparent" id="sign-in-btn">Sign in</button>
+                </div>
+               
+            </div>
+        </div>
     </div>
 
-    <div class="panels-container">
-      <div class="panel left-panel">
-        <div class="content">
-          <h3>New Manager here ?</h3>
-          <p>Register your account to find workers.</p>
-          <button class="btn transparent" id="sign-up-btn">Sign up</button>
-        </div>
-        <!-- Placeholder image since original files are missing -->
-        <img src="https://placehold.co/400x400/007bff/ffffff?text=Login" class="image" alt="Login Illustration" />
-      </div>
-      <div class="panel right-panel">
-        <div class="content">
-          <h3>One of us ?</h3>
-          <p>If you already have a Manager account, sign in here.</p>
-          <button class="btn transparent" id="sign-in-btn">Sign in</button>
-        </div>
-        <!-- Placeholder image since original files are missing -->
-        <img src="https://placehold.co/400x400/007bff/ffffff?text=Register" class="image" alt="Register Illustration" />
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // CRITICAL: Jinja template variable passed from Flask
-    FIREBASE_CLIENT_CONFIG = {{ firebase_config | tojson }};
-    FIREBASE_CLIENT_CONFIG = {{ firebase_config | default ({}) | tojson }};
-
-    // --- Firebase Initialization ---
-    let auth;
-        if (FIREBASE_CLIENT_CONFIG.apiKey) {
+    <script>
+        const FIREBASE_CLIENT_CONFIG = {{ firebase_config | tojson }};
         if (FIREBASE_CLIENT_CONFIG && FIREBASE_CLIENT_CONFIG.apiKey) {
-        firebase.initializeApp(FIREBASE_CLIENT_CONFIG);
-        auth = firebase.auth();
-      } else {
-        // This alert will trigger if the client-side keys are missing in your .env
-        console.error("FATAL: Firebase client configuration missing! Check .env variables (FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, etc.) and ensure Flask is passing them.");
-        window.alert("Application configuration error: Firebase client not loaded. Check browser console.");
-      }
-    }
-
-      // --- UI Toggling Logic ---
-      const sign_in_btn = document.querySelector("#sign-in-btn");
-      const sign_up_btn = document.querySelector("#sign-up-btn");
-      const container = document.querySelector(".container");
-
-      sign_up_btn.addEventListener("click", () => {
-        container.classList.add("sign-up-mode");
-      });
-
-      sign_in_btn.addEventListener("click", () => {
-        container.classList.remove("sign-up-mode");
-      });
-
-      // --- CRITICAL: Firebase Sign-In Logic ---
-      const signInForm = document.getElementById('worker-sign-in-form');
-      const signInEmail = document.getElementById('signin-email');
-      const signInPassword = document.getElementById('signin-password');
-      const signInTokenInput = document.getElementById('signin-id-token');
-
-      signInForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // STOP default browser submission
-
-        // Check if Firebase Auth initialized successfully
-        if (!auth) {
-          window.alert("Authentication service is unavailable.");
-          return;
+            firebase.initializeApp(FIREBASE_CLIENT_CONFIG);
+        } else {
+            console.error("Firebase client configuration missing!");
         }
+        const auth = firebase.auth();
 
-        const email = signInEmail.value;
-        const password = signInPassword.value;
+        const sign_in_btn = document.querySelector("#sign-in-btn");
+        const sign_up_btn = document.querySelector("#sign-up-btn");
+        const container = document.querySelector(".container");
 
-        const submitButton = signInForm.querySelector('.btn.solid');
-        submitButton.value = 'Logging in...';
-        submitButton.disabled = true;
+        sign_up_btn.addEventListener("click", () => {
+            container.classList.add("sign-up-mode");
+        });
+        sign_in_btn.addEventListener("click", () => {
+            container.classList.remove("sign-up-mode");
+        });
 
-        try {
-          // 1. Sign in the user using the Firebase Client SDK
-          const userCredential = await auth.signInWithEmailAndPassword(email, password);
-          const user = userCredential.user;
+        const signInForm = document.getElementById('manager-sign-in-form');
+        signInForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signin-email').value;
+            const password = document.getElementById('signin-password').value;
+            const idTokenInput = document.getElementById('signin-id-token');
+            const submitButton = signInForm.querySelector('.btn.solid');
+            submitButton.value = 'Logging in...';
+            submitButton.disabled = true;
 
-          // 2. Get the Firebase ID Token (this is the key sent to Flask)
-          const idToken = await user.getIdToken();
-
-          // 3. Place the token in the hidden input field
-          signInTokenInput.value = idToken;
-
-          // 4. Submit the form to the Flask endpoint for server-side verification
-          signInForm.submit();
-
-        } catch (error) {
-          // Handle client-side Firebase errors
-          console.error("Firebase Auth Error:", error);
-
-          let message = "Login failed. Please check your credentials.";
-          if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-            message = "Invalid email or password.";
-          } else if (error.code === 'auth/invalid-email') {
-            message = "Invalid email format.";
-          } else if (error.code === 'auth/network-request-failed') {
-            message = "Network error. Check your internet connection.";
-          }
-
-          // Use a standard browser alert for immediate feedback
-          window.alert(message);
-
-          // Reset button state on failure
-          submitButton.value = 'Login';
-          submitButton.disabled = false;
-        }
-      });
-  </script>
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const idToken = await userCredential.user.getIdToken();
+                idTokenInput.value = idToken;
+                signInForm.submit();
+            } catch (error) {
+                alert(`Login Failed: ${error.message}`);
+                submitButton.value = 'Login';
+                submitButton.disabled = false;
+            }
+        });
+    </script>
 </body>
-
 </html>
