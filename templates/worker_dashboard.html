@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Dashboard - AuraEventz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manager_dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>AuraEventz</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="{{ url_for('worker_dashboard') }}" class="active">Dashboard</a></li>
+                    <li><a href="{{ url_for('worker_jobs') }}">Available Jobs</a></li>
+                    <li><a href="{{ url_for('worker_my_applications') }}">My Applications</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Welcome, Worker!</h1>
+            </header>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div class="flash-messages">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            <section class="stats-cards">
+                <div class="card">
+                    <h2>{{ job_count }}</h2>
+                    <p>Available Jobs</p>
+                    <a href="{{ url_for('worker_jobs') }}" class="btn btn-primary" style="margin-top: 15px;">View Jobs</a>
+                </div>
+                <div class="card">
+                    <h2>{{ application_count }}</h2>
+                    <p>Applications Submitted</p>
+                    <a href="{{ url_for('worker_my_applications') }}" class="btn btn-secondary" style="margin-top: 15px;">Track Status</a>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

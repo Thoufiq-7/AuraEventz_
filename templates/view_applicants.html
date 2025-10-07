@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Applicants - AuraEventz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manager_dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .status.pending { background-color: #f39c12; }
+        .status.approved { background-color: var(--success-color); }
+        .status.rejected { background-color: var(--danger-color); }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header"><h3>AuraEventz</h3></div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="{{ url_for('manager_dashboard') }}" class="active">Dashboard</a></li>
+                    <li><a href="{{ url_for('manager_post_job') }}">Post a New Job</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Applicants for "{{ job_title }}"</h1>
+            </header>
+
+            <div class="table-container">
+                <table class="job-table">
+                    <thead>
+                        <tr>
+                            <th>Applicant Name</th>
+                            <th>Date Applied</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if applications %}
+                            {% for app in applications %}
+                            <tr>
+                                <td>{{ app.worker_name }}</td>
+                                <td>{{ app.applied_on }}</td>
+                                <td>
+                                    <span class="status {{ app.status.lower() }}">{{ app.status }}</span>
+                                </td>
+                                <td>
+                                    {% if app.status == 'Pending' %}
+                                    <form action="{{ url_for('update_application_status', app_id=app.id) }}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="status" value="Approved">
+                                        <button type="submit" class="btn btn-success">Approve</button>
+                                    </form>
+                                    <form action="{{ url_for('update_application_status', app_id=app.id) }}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="status" value="Rejected">
+                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                    </form>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" style="text-align:center; padding: 20px;">No one has applied to this job yet.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

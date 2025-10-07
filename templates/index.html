@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraEventz - Event Management</title>
+    
+    <!-- 1. Tailwind CSS CDN Import -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Tailwind Configuration (MUST BE IN A SCRIPT TAG) -->
+    <script>
+        // Custom Tailwind config for brand colors and fonts
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Brand Colors: Indigo for Primary, Emerald for Secondary/Accent
+                        'primary': '#6366f1', 
+                        'primary-dark': '#4f46e5',
+                        'secondary': '#10b981', 
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- 3. Custom CSS Styles (MUST BE IN A STYLE TAG) -->
+    <style>
+        /* Custom styles for the Glassy Effect */
+        .glass-nav {
+            /* Fallback background for browsers that don't support backdrop-filter */
+            background-color: rgba(255, 255, 255, 0.8);
+            /* The key to the glassy effect */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 antialiased min-h-screen">
+
+    <!-- Floating Glassy Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-20 transition-all duration-300">
+        <nav class="glass-nav max-w-7xl mx-auto mt-4 px-6 py-4 rounded-xl shadow-lg">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-3xl font-extrabold text-gray-800 tracking-wide">
+                    <span class="text-secondary">Aura</span><span class="text-primary">Eventz</span>
+                </a>
+                <!-- Future Auth/Profile links can go here -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 md:pt-48 md:pb-24 max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Text and Buttons Column -->
+            <div class="text-center lg:text-left">
+                <h1 class="text-6xl md:text-8xl font-extrabold text-gray-900 mb-6 leading-tight">
+                    Your <span class="text-primary">Event</span>, Managed.
+                </h1>
+                <p class="mt-4 text-xl text-gray-600 max-w-xl mx-auto lg:mx-0 mb-10">
+                    The ultimate platform connecting event visionaries with a skilled workforce. Streamline your staffing from start to finish.
+                </p>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                    <a href="{{ url_for('manager_login_register') }}" 
+                       class="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white bg-primary rounded-full shadow-2xl shadow-primary/50 hover:bg-primary-dark transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50">
+                        I'm an Event Manager
+                    </a>
+                    <a href="{{ url_for('worker_login_register') }}" 
+                       class="w-full sm:w-auto px-10 py-4 text-lg font-bold text-primary bg-white border-2 border-primary rounded-full hover:bg-primary/10 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50">
+                        I'm an Event Worker
+                    </a>
+                </div>
+            </div>
+
+            <!-- Image/Slogan Column (Image Added) -->
+            <div class="hidden lg:flex justify-center">
+                <!-- Image replaced the placeholder div -->
+                <div class="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition duration-500 ease-in-out">
+                    <img 
+                        src="{{ url_for('static', filename='images/Hero.png') }}" 
+                        alt="Digital event planning dashboard" 
+                        class="w-full h-auto object-cover"
+                        onerror="this.onerror=null;this.src='https://placehold.co/800x600/4f46e5/ffffff?text=AuraEventz+Image'"
+                    >
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (simple, non-floating) -->
+    <footer class="bg-gray-900 text-white p-4 mt-auto">
+        <div class="max-w-7xl mx-auto text-center text-sm">
+            &copy; 2025 AuraEventz.
+        </div>
+    </footer>
+
+    <!-- Minimal JS section for future use (e.g., initial auth check) -->
+    <script>
+        // Placeholder for any future plain JavaScript functions
+        console.log("AuraEventz landing page loaded.");
+    </script>
+</body>
+</html>
