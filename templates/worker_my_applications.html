@@ -1,69 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Applications - AuraEventz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/manager_dashboard.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Your App's Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'primary': ['Poppins', 'sans-serif'],
+                        'secondary': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'primary-light': '#a5b4fc',
+                        'secondary': '#10b981',
+                        'secondary-dark': '#059669',
+                        'accent': '#f59e0b',
+                        'dark': '#1f2937',
+                        'light-gray': '#f8fafc',
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for shared styles -->
     <style>
-        .status.pending { background-color: #f39c12; }
-        .status.approved { background-color: var(--success-color); }
-        .status.rejected { background-color: var(--danger-color); }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #10b981 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
-<body>
-    <div class="dashboard-container">
-        <aside class="sidebar">
-            <div class="sidebar-header"><h3>AuraEventz</h3></div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="{{ url_for('worker_dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ url_for('worker_jobs') }}">Available Jobs</a></li>
-                    <li><a href="{{ url_for('worker_my_applications') }}" class="active">My Applications</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                </ul>
+
+<body class="font-primary antialiased">
+    <div class="flex h-screen bg-light-gray">
+        
+        <!-- Floating Background Elements -->
+        <div class="fixed inset-0 pointer-events-none z-0">
+            <div class="absolute w-32 h-32 bg-primary/10 rounded-full blur-2xl" style="top: 10%; left: 5%;"></div>
+            <div class="absolute w-40 h-40 bg-secondary/10 rounded-full blur-2xl" style="top: 50%; right: 10%;"></div>
+            <div class="absolute w-24 h-24 bg-accent/10 rounded-full blur-2xl" style="bottom: 15%; left: 40%;"></div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="w-64 flex-shrink-0 hidden md:flex flex-col bg-dark text-white p-6 font-secondary shadow-2xl relative z-10">
+            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-white mb-10 block">
+                <span class="text-gradient">Aura</span>Eventz
+            </a>
+            <nav class="space-y-3 flex-grow">
+                <a href="{{ url_for('worker_dashboard') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-primary/50 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-home fa-fw w-6 mr-3"></i> Dashboard
+                </a>
+                <a href="{{ url_for('worker_jobs') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-primary/50 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-briefcase fa-fw w-6 mr-3"></i> Available Jobs
+                </a>
+                 <a href="{{ url_for('worker_my_applications') }}" class="flex items-center px-4 py-3 bg-primary rounded-lg text-white font-semibold shadow-md">
+                    <i class="fas fa-file-alt fa-fw w-6 mr-3"></i> My Applications
+                </a>
             </nav>
+            <div class="flex-shrink-0">
+                <a href="{{ url_for('logout') }}" class="flex items-center px-4 py-3 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-sign-out-alt fa-fw w-6 mr-3"></i> Logout
+                </a>
+            </div>
         </aside>
 
-        <main class="main-content">
-            <header class="main-header">
-                <h1>My Application History</h1>
-            </header>
+        <!-- Main Content -->
+        <main class="flex-1 p-6 md:p-10 overflow-y-auto relative z-10">
+            <div class="max-w-7xl mx-auto">
+                <header class="mb-8">
+                    <h1 class="text-4xl font-bold text-dark">My Application History</h1>
+                    <p class="text-gray-500 mt-2 font-secondary">Track the status of all your submitted job applications.</p>
+                </header>
 
-            <div class="table-container">
-                <table class="job-table">
-                    <thead>
-                        <tr>
-                            <th>Job Title</th>
-                            <th>Date Applied</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if applications %}
-                            {% for app in applications %}
-                            <tr>
-                                <td>{{ app.job_title }}</td>
-                                <td>{{ app.applied_on }}</td>
-                                <td>
-                                    {% if app.status == 'Pending' %}
-                                        <span class="status pending">Pending</span>
-                                    {% elif app.status == 'Approved' %}
-                                        <span class="status approved">Approved</span>
-                                    {% elif app.status == 'Rejected' %}
-                                        <span class="status rejected">Rejected</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td colspan="3" style="text-align:center; padding: 20px;">You have not applied to any jobs yet.</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+                <!-- Applications Table -->
+                <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left font-secondary">
+                            <thead class="bg-gray-50 border-b">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600 uppercase text-sm">Job Title</th>
+                                    <th class="p-4 font-semibold text-gray-600 uppercase text-sm">Date Applied</th>
+                                    <th class="p-4 font-semibold text-gray-600 uppercase text-sm">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                {% if applications %}
+                                    {% for app in applications %}
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-4 font-semibold text-dark">{{ app.job_title }}</td>
+                                        <td class="p-4 text-gray-600">{{ app.applied_on }}</td>
+                                        <td class="p-4">
+                                            {% if app.status == 'Pending' %}
+                                                <span class="inline-flex items-center px-3 py-1 text-xs font-bold text-yellow-800 bg-yellow-100 rounded-full">
+                                                    <i class="fas fa-clock mr-2"></i>{{ app.status }}
+                                                </span>
+                                            {% elif app.status == 'Approved' %}
+                                                 <span class="inline-flex items-center px-3 py-1 text-xs font-bold text-green-800 bg-green-100 rounded-full">
+                                                    <i class="fas fa-check-circle mr-2"></i>{{ app.status }}
+                                                 </span>
+                                            {% elif app.status == 'Rejected' %}
+                                                 <span class="inline-flex items-center px-3 py-1 text-xs font-bold text-red-800 bg-red-100 rounded-full">
+                                                    <i class="fas fa-times-circle mr-2"></i>{{ app.status }}
+                                                 </span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="3" class="text-center p-8 text-gray-500">
+                                            <i class="fas fa-folder-open text-4xl text-gray-300 mb-3"></i><br>
+                                            You haven't applied to any jobs yet.
+                                            <a href="{{ url_for('worker_jobs') }}" class="text-primary font-semibold hover:underline block mt-2">Browse Available Jobs</a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
             </div>
         </main>
     </div>

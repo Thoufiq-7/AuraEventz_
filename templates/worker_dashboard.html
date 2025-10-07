@@ -1,55 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worker Dashboard - AuraEventz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/manager_dashboard.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'primary': ['Poppins', 'sans-serif'],
+                        'secondary': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'primary-light': '#a5b4fc',
+                        'secondary': '#10b981',
+                        'secondary-dark': '#059669',
+                        'accent': '#f59e0b',
+                        'dark': '#1f2937',
+                        'light-gray': '#f8fafc',
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #10b981 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
-<body>
-    <div class="dashboard-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h3>AuraEventz</h3>
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="{{ url_for('worker_dashboard') }}" class="active">Dashboard</a></li>
-                    <li><a href="{{ url_for('worker_jobs') }}">Available Jobs</a></li>
-                    <li><a href="{{ url_for('worker_my_applications') }}">My Applications</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                </ul>
+
+<body class="font-primary antialiased">
+    <div class="flex h-screen bg-light-gray">
+        
+        <div class="fixed inset-0 pointer-events-none z-0">
+            <div class="absolute w-32 h-32 bg-primary/10 rounded-full blur-2xl" style="top: 10%; left: 5%;"></div>
+            <div class="absolute w-40 h-40 bg-secondary/10 rounded-full blur-2xl" style="top: 50%; right: 10%;"></div>
+            <div class="absolute w-24 h-24 bg-accent/10 rounded-full blur-2xl" style="bottom: 15%; left: 40%;"></div>
+        </div>
+
+        <aside class="w-64 flex-shrink-0 hidden md:flex flex-col bg-dark text-white p-6 font-secondary shadow-2xl relative z-10">
+            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-white mb-10 block">
+                <span class="text-gradient">Aura</span>Eventz
+            </a>
+            <nav class="space-y-3 flex-grow">
+                <a href="{{ url_for('worker_dashboard') }}" class="flex items-center px-4 py-3 bg-primary rounded-lg text-white font-semibold shadow-md">
+                    <i class="fas fa-home fa-fw w-6 mr-3"></i> Dashboard
+                </a>
+                <a href="{{ url_for('worker_jobs') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-primary/50 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-briefcase fa-fw w-6 mr-3"></i> Available Jobs
+                </a>
+                 <a href="{{ url_for('worker_my_applications') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-primary/50 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-file-alt fa-fw w-6 mr-3"></i> My Applications
+                </a>
             </nav>
+            <div class="flex-shrink-0">
+                <a href="{{ url_for('logout') }}" class="flex items-center px-4 py-3 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-sign-out-alt fa-fw w-6 mr-3"></i> Logout
+                </a>
+            </div>
         </aside>
 
-        <main class="main-content">
-            <header class="main-header">
-                <h1>Welcome, Worker!</h1>
-            </header>
+        <main class="flex-1 p-6 md:p-10 overflow-y-auto relative z-10">
+            <div class="max-w-7xl mx-auto">
+                <header class="mb-8">
+                    <h1 class="text-4xl font-bold text-dark">Welcome, Worker!</h1>
+                    <p class="text-gray-500 mt-2 font-secondary">Your next opportunity is just a click away.</p>
+                </header>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                <div class="flash-messages">
-                {% for category, message in messages %}
-                  <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-                </div>
-              {% endif %}
-            {% endwith %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="p-4 mb-6 rounded-lg text-sm {% if category == 'danger' %}bg-red-100 text-red-800 border-l-4 border-red-500{% elif category == 'success' %}bg-green-100 text-green-800 border-l-4 border-green-500{% else %}bg-blue-100 text-blue-800 border-l-4 border-blue-500{% endif %}" role="alert">
+                            <p class="font-bold">{% if category == 'success' %}Success{% elif category == 'danger' %}Error{% else %}Info{% endif %}</p>
+                            <p>{{ message }}</p>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
 
-            <section class="stats-cards">
-                <div class="card">
-                    <h2>{{ job_count }}</h2>
-                    <p>Available Jobs</p>
-                    <a href="{{ url_for('worker_jobs') }}" class="btn btn-primary" style="margin-top: 15px;">View Jobs</a>
-                </div>
-                <div class="card">
-                    <h2>{{ application_count }}</h2>
-                    <p>Applications Submitted</p>
-                    <a href="{{ url_for('worker_my_applications') }}" class="btn btn-secondary" style="margin-top: 15px;">Track Status</a>
-                </div>
-            </section>
+                <section class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                    <div class="glass-card p-6 rounded-xl border-t-4 border-primary shadow-lg flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-600">Available Jobs</h3>
+                            <p class="text-5xl font-bold text-primary mt-2">{{ job_count }}</p>
+                        </div>
+                        <a href="{{ url_for('worker_jobs') }}" class="mt-4 block text-center bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-md hover:shadow-primary/40 transform hover:-translate-y-0.5">
+                            Browse Jobs <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl border-t-4 border-secondary shadow-lg flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-600">Applications Submitted</h3>
+                            <p class="text-5xl font-bold text-secondary mt-2">{{ application_count }}</p>
+                        </div>
+                        <a href="{{ url_for('worker_my_applications') }}" class="mt-4 block text-center bg-secondary hover:bg-secondary-dark text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-md hover:shadow-secondary/40 transform hover:-translate-y-0.5">
+                            Track Status <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </section>
+
+                <section class="bg-white rounded-xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-dark">Notifications</h2>
+                    <p class="text-gray-500 mt-4 font-secondary">You have no new notifications.</p>
+                </section>
+                
+            </div>
         </main>
     </div>
 </body>

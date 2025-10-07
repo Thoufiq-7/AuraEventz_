@@ -5,106 +5,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Dashboard - AuraEventz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/manager_dashboard.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'primary': ['Poppins', 'sans-serif'],
+                        'secondary': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'primary-light': '#a5b4fc',
+                        'secondary': '#10b981',
+                        'secondary-dark': '#059669',
+                        'accent': '#f59e0b',
+                        'dark': '#1f2937',
+                        'light-gray': '#f8fafc',
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #10b981 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="dashboard-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h3>AuraEventz</h3>
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="{{ url_for('manager_dashboard') }}" class="active">Dashboard</a></li>
-                    <li><a href="{{ url_for('manager_post_job') }}">Post a New Job</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                </ul>
+<body class="font-primary antialiased">
+    <div class="flex h-screen bg-light-gray">
+        
+        <div class="fixed inset-0 pointer-events-none z-0">
+            <div class="absolute w-32 h-32 bg-primary/10 rounded-full blur-2xl" style="top: 10%; left: 5%;"></div>
+            <div class="absolute w-40 h-40 bg-secondary/10 rounded-full blur-2xl" style="top: 50%; right: 10%;"></div>
+            <div class="absolute w-24 h-24 bg-accent/10 rounded-full blur-2xl" style="bottom: 15%; left: 40%;"></div>
+        </div>
+
+        <aside class="w-64 flex-shrink-0 hidden md:flex flex-col bg-dark text-white p-6 font-secondary shadow-2xl relative z-10">
+            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-white mb-10 block">
+                <span class="text-gradient">Aura</span>Eventz
+            </a>
+            <nav class="space-y-3 flex-grow">
+                <a href="{{ url_for('manager_dashboard') }}" class="flex items-center px-4 py-3 bg-primary rounded-lg text-white font-semibold shadow-md">
+                    <i class="fas fa-tachometer-alt fa-fw w-6 mr-3"></i> Dashboard
+                </a>
+                <a href="{{ url_for('manager_post_job') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-primary/50 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-plus-circle fa-fw w-6 mr-3"></i> Post New Job
+                </a>
             </nav>
+            <div class="flex-shrink-0">
+                <a href="{{ url_for('logout') }}" class="flex items-center px-4 py-3 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-sign-out-alt fa-fw w-6 mr-3"></i> Logout
+                </a>
+            </div>
         </aside>
 
-        <main class="main-content">
-            <header class="main-header">
-                <h1>Welcome, Manager!</h1>
-            </header>
+        <main class="flex-1 p-6 md:p-10 overflow-y-auto relative z-10">
+            <div class="max-w-7xl mx-auto">
+                <header class="mb-8">
+                    <h1 class="text-4xl font-bold text-dark">Welcome, Manager!</h1>
+                    <p class="text-gray-500 mt-2 font-secondary">Here's what's happening with your events today.</p>
+                </header>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            <div class="flash-messages">
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="p-4 mb-6 rounded-lg text-sm {% if category == 'danger' %}bg-red-100 text-red-800 border-l-4 border-red-500{% elif category == 'success' %}bg-green-100 text-green-800 border-l-4 border-green-500{% else %}bg-blue-100 text-blue-800 border-l-4 border-blue-500{% endif %}" role="alert">
+                            <p class="font-bold">{% if category == 'success' %}Success{% elif category == 'danger' %}Error{% else %}Info{% endif %}</p>
+                            <p>{{ message }}</p>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="glass-card p-6 rounded-xl border-t-4 border-primary shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-600">Total Jobs Posted</h3>
+                        <p class="text-5xl font-bold text-primary mt-2">{{ jobs|length }}</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl border-t-4 border-secondary shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-600">Total Applications</h3>
+                        <p class="text-5xl font-bold text-secondary mt-2">{{ jobs|sum(attribute='app_count') }}</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl border-t-4 border-accent shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-600">Active Listings</h3>
+                        <p class="text-5xl font-bold text-accent mt-2">{{ jobs|selectattr('status', 'equalto', 'Active')|list|length }}</p>
+                    </div>
+                </section>
+
+                <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <header class="p-6 border-b flex justify-between items-center">
+                        <h2 class="text-2xl font-bold text-dark">Your Job Postings</h2>
+                        <a href="{{ url_for('manager_post_job') }}" class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-lg transition-colors shadow-md hover:shadow-primary/40 transform hover:-translate-y-0.5"><i class="fas fa-plus mr-2"></i>Post Job</a>
+                    </header>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left font-secondary">
+                            <thead class="bg-gray-50 border-b">
+                                <tr>
+                                    <th class="p-4 font-semibold text-gray-600 uppercase text-sm">Job Title</th>
+                                    <th class="p-4 font-semibold text-gray-600 uppercase text-sm">Date Posted</th>
+                                    <th class="p-4 font-semibold text-gray-600 uppercase text-sm">Applicants</th>
+                                    <th class="p-4 font-semibold text-gray-600 uppercase text-sm text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                {% if jobs %}
+                                    {% for job in jobs %}
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-4 font-semibold text-dark">{{ job.title }}</td>
+                                        <td class="p-4 text-gray-600">{{ job.posted_on }}</td>
+                                        <td class="p-4">
+                                            <a href="{{ url_for('view_applicants', job_id=job.id) }}" class="inline-block bg-primary/10 text-primary font-bold text-sm px-3 py-1 rounded-full hover:bg-primary/20">
+                                                {{ job.app_count }} View
+                                            </a>
+                                        </td>
+                                        <td class="p-4 flex items-center justify-center space-x-4">
+                                            <a href="{{ url_for('edit_job', job_id=job.id) }}" class="text-gray-500 hover:text-secondary transition-colors" title="Edit Job"><i class="fas fa-edit text-lg"></i></a>
+                                            <form action="{{ url_for('delete_job', job_id=job.id) }}" method="POST" onsubmit="return confirm('Are you sure? This will delete the job and all associated applications.');">
+                                                <button type="submit" class="text-gray-500 hover:text-red-500 transition-colors" title="Delete Job"><i class="fas fa-trash-alt text-lg"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center p-8 text-gray-500">You haven't posted any jobs yet. Click 'Post Job' to get started!</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
-            {% endif %}
-            {% endwith %}
-
-            <section class="stats-cards">
-                <div class="card">
-                    <h2>12</h2>
-                    <p>Total Jobs Posted</p>
-                </div>
-                <div class="card">
-                    <h2>5</h2>
-                    <p>Open Positions</p>
-                </div>
-                <div class="card">
-                    <h2>142</h2>
-                    <p>Total Applications</p>
-                </div>
-                <div class="card action-card">
-                    <a href="{{ url_for('manager_post_job') }}" class="btn btn-primary">Post a New Job</a>
-                </div>
-            </section>
-
-            <section class="recent-jobs">
-                <h2>Manage Your Job Postings</h2>
-                <div class="table-container">
-                    <table class="job-table">
-                        <thead>
-                            <tr>
-                                <th>Job Title</th>
-                                <th>Date Posted</th>
-                                <th>Status</th>
-                                <th>Applications</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% if jobs %}
-                            {% for job in jobs %}
-                            <tr>
-                                <td>{{ job.title }}</td>
-                                <td>{{ job.posted_on }}</td>
-                                <td><span class="status active">{{ job.status }}</span></td>
-                                <td>
-                                    <a href="{{ url_for('view_applicants', job_id=job.id) }}">{{ job.app_count }}
-                                        View</a>
-                                </td>
-                                <td>
-                                    <a href="{{ url_for('edit_job', job_id=job.id) }}"
-                                        class="btn btn-secondary">Edit</a>
-                                    <form action="{{ url_for('delete_job', job_id=job.id) }}" method="POST"
-                                        style="display:inline;"
-                                        onsubmit="return confirm('Are you sure you want to delete this job posting?');">
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                            {% else %}
-                            <tr>
-                                <td colspan="4" style="text-align:center; padding: 20px;">You have not posted any jobs
-                                    yet.</td>
-                            </tr>
-                            {% endif %}
-                        </tbody>
-                    </table>
-                </div>
-            </section>
         </main>
     </div>
 </body>
-
 </html>

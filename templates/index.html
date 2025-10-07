@@ -3,111 +3,481 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AuraEventz - Event Management</title>
+    <title>AuraEventz - Next-Gen Event Management</title>
     
-    <!-- 1. Tailwind CSS CDN Import -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- 2. Tailwind Configuration (MUST BE IN A SCRIPT TAG) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
-        // Custom Tailwind config for brand colors and fonts
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        'primary': ['Poppins', 'sans-serif'],
+                        'secondary': ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        // Brand Colors: Indigo for Primary, Emerald for Secondary/Accent
-                        'primary': '#6366f1', 
+                        'primary': '#6366f1',
                         'primary-dark': '#4f46e5',
-                        'secondary': '#10b981', 
+                        'primary-light': '#a5b4fc',
+                        'secondary': '#10b981',
+                        'secondary-dark': '#059669',
+                        'accent': '#f59e0b',
+                        'dark': '#1f2937',
+                        'light-gray': '#f8fafc',
                     },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite alternate',
+                        'gradient-shift': 'gradientShift 8s ease-in-out infinite',
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        'gradient-secondary': 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                        'gradient-hero': 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)',
+                    }
                 }
             }
         }
     </script>
 
-    <!-- 3. Custom CSS Styles (MUST BE IN A STYLE TAG) -->
     <style>
-        /* Custom styles for the Glassy Effect */
         .glass-nav {
-            /* Fallback background for browsers that don't support backdrop-filter */
-            background-color: rgba(255, 255, 255, 0.8);
-            /* The key to the glassy effect */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); /* For Safari */
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1);
         }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(3deg); }
+            50% { transform: translateY(-20px) rotate(-3deg); }
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+            100% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8), 0 0 60px rgba(99, 102, 241, 0.4); }
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .btn-primary:before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        .btn-primary:hover:before { left: 100%; }
+        .btn-secondary {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+        }
+        .hero-bg {
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+        }
+        .floating-element { position: absolute; animation: float 6s ease-in-out infinite; }
+        .floating-element:nth-child(2) { animation-delay: -2s; }
+        .floating-element:nth-child(3) { animation-delay: -4s; }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #10b981 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+        .hover-lift { transition: all 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); }
     </style>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-50 antialiased min-h-screen">
+<body class="font-primary antialiased min-h-screen hero-bg relative overflow-x-hidden bg-light-gray">
 
-    <!-- Floating Glassy Navigation Bar -->
-    <header class="fixed top-0 left-0 right-0 z-20 transition-all duration-300">
-        <nav class="glass-nav max-w-7xl mx-auto mt-4 px-6 py-4 rounded-xl shadow-lg">
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="floating-element w-32 h-32 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-xl" style="top: 20%; left: 10%;"></div>
+        <div class="floating-element w-24 h-24 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-full blur-xl" style="top: 60%; right: 15%;"></div>
+        <div class="floating-element w-40 h-40 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-xl" style="bottom: 20%; left: 60%;"></div>
+    </div>
+
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav id="navbar" class="glass-nav max-w-7xl mx-auto mt-6 px-8 py-5 rounded-2xl shadow-xl hover-lift">
             <div class="flex justify-between items-center">
-                <a href="#" class="text-3xl font-extrabold text-gray-800 tracking-wide">
-                    <span class="text-secondary">Aura</span><span class="text-primary">Eventz</span>
+                <a href="#" class="text-4xl font-bold text-gray-800 tracking-wide hover:scale-105 transition-transform duration-300">
+                    <span class="text-gradient">Aura</span><span class="text-primary">Eventz</span>
                 </a>
-                <!-- Future Auth/Profile links can go here -->
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-700 hover:text-primary font-medium transition-colors duration-300">Features</a>
+                    <a href="#testimonials" class="text-gray-700 hover:text-primary font-medium transition-colors duration-300">Testimonials</a>
+                    <a href="#contact" class="text-gray-700 hover:text-primary font-medium transition-colors duration-300">Contact</a>
+                </div>
+
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-primary" aria-label="Open menu">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="pt-32 pb-16 md:pt-48 md:pb-24 max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <!-- Text and Buttons Column -->
-            <div class="text-center lg:text-left">
-                <h1 class="text-6xl md:text-8xl font-extrabold text-gray-900 mb-6 leading-tight">
-                    Your <span class="text-primary">Event</span>, Managed.
+    <div id="mobile-menu" class="fixed inset-0 bg-gray-900 bg-opacity-90 backdrop-blur-sm z-40 hidden flex-col items-center justify-center space-y-8">
+        <button id="mobile-menu-close" class="absolute top-8 right-8 text-white text-3xl" aria-label="Close menu">&times;</button>
+        <a href="#features" class="mobile-menu-link text-3xl font-bold text-white">Features</a>
+        <a href="#testimonials" class="mobile-menu-link text-3xl font-bold text-white">Testimonials</a>
+        <a href="#contact" class="mobile-menu-link text-3xl font-bold text-white">Contact</a>
+    </div>
+
+    <section class="pt-40 pb-20 md:pt-56 md:pb-32 max-w-7xl mx-auto px-6 relative z-10">
+        <div id="hero-content" class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="text-center lg:text-left animate-fade-in-up">
+                <div class="inline-flex items-center px-4 py-2 rounded-full glass-card mb-8 text-sm font-medium text-primary">
+                    <i class="fas fa-sparkles mr-2"></i>
+                    <span>Next-Gen Event Management</span>
+                </div>
+
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-gray-900 mb-8 leading-tight">
+                    Your <span class="text-gradient">Event</span>,<br>
+                    <span class="relative">
+                        Managed
+                        <div class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+                    </span>.
                 </h1>
-                <p class="mt-4 text-xl text-gray-600 max-w-xl mx-auto lg:mx-0 mb-10">
-                    The ultimate platform connecting event visionaries with a skilled workforce. Streamline your staffing from start to finish.
+                
+                <p class="mt-6 text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto lg:mx-0 mb-12 leading-relaxed font-secondary">
+                    The ultimate platform connecting event visionaries with a skilled workforce. 
+                    <span class="text-primary font-semibold">Streamline your staffing</span> from start to finish.
                 </p>
                 
-                <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-6">
                     <a href="{{ url_for('manager_login_register') }}" 
-                       class="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white bg-primary rounded-full shadow-2xl shadow-primary/50 hover:bg-primary-dark transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50">
-                        I'm an Event Manager
+                       class="group btn-primary w-full sm:w-auto px-12 py-5 text-lg font-bold text-white rounded-2xl shadow-2xl hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50 animate-pulse-glow">
+                        <i class="fas fa-crown mr-3"></i> I'm an Event Manager
+                        <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
                     </a>
                     <a href="{{ url_for('worker_login_register') }}" 
-                       class="w-full sm:w-auto px-10 py-4 text-lg font-bold text-primary bg-white border-2 border-primary rounded-full hover:bg-primary/10 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50">
-                        I'm an Event Worker
+                       class="group btn-secondary w-full sm:w-auto px-12 py-5 text-lg font-bold text-primary rounded-2xl hover:bg-primary/10 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50 shadow-lg">
+                        <i class="fas fa-users mr-3"></i> I'm an Event Worker
+                        <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
                     </a>
+                </div>
+
+                <div class="mt-16 flex justify-center lg:justify-start space-x-12">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary stat-counter" data-target="500">0+</div>
+                        <div class="text-sm text-gray-600 font-secondary">Events Managed</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-secondary stat-counter" data-target="1000">0+</div>
+                        <div class="text-sm text-gray-600 font-secondary">Happy Clients</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-accent stat-counter" data-target="24" data-suffix="/7">24/7</div>
+                        <div class="text-sm text-gray-600 font-secondary">Support</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Image/Slogan Column (Image Added) -->
-            <div class="hidden lg:flex justify-center">
-                <!-- Image replaced the placeholder div -->
-                <div class="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform rotate-3 hover:rotate-0 transition duration-500 ease-in-out">
-                    <img 
-                        src="{{ url_for('static', filename='images/Hero.png') }}" 
-                        alt="Digital event planning dashboard" 
-                        class="w-full h-auto object-cover"
-                        onerror="this.onerror=null;this.src='https://placehold.co/800x600/4f46e5/ffffff?text=AuraEventz+Image'"
-                    >
+            <div class="hidden lg:flex justify-center animate-fade-in-up" style="animation-delay: 0.3s;">
+                <div class="relative" id="parallax-container">
+                    <div class="w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50 transform transition-transform duration-700 ease-out animate-float hover-lift glass-card" data-depth="0.2">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'" alt="Digital event planning dashboard" class="w-full h-auto object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"></div>
+                    </div>
+                    <div class="absolute -top-6 -right-6 glass-card p-4 rounded-xl shadow-lg animate-float" style="animation-delay: -1s;" data-depth="-0.3">
+                        <div class="flex items-center space-x-3"><div class="w-10 h-10 bg-gradient-to-r from-secondary to-secondary-dark rounded-full flex items-center justify-center"><i class="fas fa-check text-white text-sm"></i></div><div><div class="text-xs font-semibold text-gray-800">Real-time Updates</div><div class="text-xs text-gray-600">Live event tracking</div></div></div>
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 glass-card p-4 rounded-xl shadow-lg animate-float" style="animation-delay: -2s;" data-depth="-0.4">
+                        <div class="flex items-center space-x-3"><div class="w-10 h-10 bg-gradient-to-r from-accent to-orange-500 rounded-full flex items-center justify-center"><i class="fas fa-bolt text-white text-sm"></i></div><div><div class="text-xs font-semibold text-gray-800">Smart Matching</div><div class="text-xs text-gray-600">AI-powered staffing</div></div></div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer (simple, non-floating) -->
-    <footer class="bg-gray-900 text-white p-4 mt-auto">
-        <div class="max-w-7xl mx-auto text-center text-sm">
-            &copy; 2025 AuraEventz.
+    <section id="features" class="py-20 relative z-10">
+        </section>
+
+    <section id="testimonials" class="py-20 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                    Loved by <span class="text-gradient">Professionals</span> Worldwide
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto font-secondary">
+                    Don't just take our word for it. Here's what event managers are saying about AuraEventz.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-2xl hover-lift flex flex-col">
+                    <i class="fas fa-quote-left text-primary text-3xl mb-4"></i>
+                    <p class="text-gray-700 font-secondary mb-6 flex-grow">"AuraEventz transformed how we staff our festivals. The AI matching is incredibly accurate and saved us countless hours. It's a game-changer!"</p>
+                    <div class="flex items-center mt-auto">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria S." class="w-12 h-12 rounded-full mr-4 border-2 border-primary-light">
+                        <div>
+                            <h4 class="font-bold text-gray-900">Maria S.</h4>
+                            <p class="text-sm text-gray-600">Festival Organizer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-8 rounded-2xl hover-lift flex flex-col">
+                    <i class="fas fa-quote-left text-primary text-3xl mb-4"></i>
+                    <p class="text-gray-700 font-secondary mb-6 flex-grow">"The interface is so intuitive. I posted a job for my corporate event and had qualified candidates applying within minutes. Highly recommended!"</p>
+                    <div class="flex items-center mt-auto">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David L." class="w-12 h-12 rounded-full mr-4 border-2 border-primary-light">
+                        <div>
+                            <h4 class="font-bold text-gray-900">David L.</h4>
+                            <p class="text-sm text-gray-600">Corporate Event Planner</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-8 rounded-2xl hover-lift flex flex-col">
+                    <i class="fas fa-quote-left text-primary text-3xl mb-4"></i>
+                    <p class="text-gray-700 font-secondary mb-6 flex-grow">"As a freelance worker, this platform has been incredible for finding gigs. The payment system is secure and I always get paid on time."</p>
+                    <div class="flex items-center mt-auto">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Chloe T." class="w-12 h-12 rounded-full mr-4 border-2 border-primary-light">
+                        <div>
+                            <h4 class="font-bold text-gray-900">Chloe T.</h4>
+                            <p class="text-sm text-gray-600">Event Staff</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <section id="contact" class="py-20 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                    Get In <span class="text-gradient">Touch</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto font-secondary">
+                    Have a question or want to work together? We'd love to hear from you.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-8 md:p-12">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Contact Information</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0"><i class="fas fa-map-marker-alt text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Our Office</h4>
+                                    <p class="text-gray-600 font-secondary">123 Event Lane, Chennai, TN 600001, India</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Email Us</h4>
+                                    <p class="text-gray-600 font-secondary">hello@auraeventz.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0"><i class="fas fa-phone-alt text-xl"></i></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Call Us</h4>
+                                    <p class="text-gray-600 font-secondary">+91 44 1234 5678</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 rounded-2xl overflow-hidden shadow-lg border border-white/30">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124368.42434937214!2d80.19941933471016!3d13.047872652614945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ea4f7d3361%3A0x6e61a70b6863d433!2sChennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1696697843210!5m2!1sen!2sin" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+
+                    <form>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="font-semibold text-gray-700 block mb-2">Full Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label for="email" class="font-semibold text-gray-700 block mb-2">Email Address</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300" placeholder="you@example.com">
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <label for="subject" class="font-semibold text-gray-700 block mb-2">Subject</label>
+                            <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300" placeholder="Regarding an event...">
+                        </div>
+                        <div class="mt-6">
+                            <label for="message" class="font-semibold text-gray-700 block mb-2">Message</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300" placeholder="Your message here..."></textarea>
+                        </div>
+                        <div class="mt-6">
+                            <button type="submit" class="group btn-primary w-full px-8 py-4 text-lg font-bold text-white rounded-xl shadow-lg hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50">
+                                Send Message <i class="fas fa-paper-plane ml-2 group-hover:translate-x-1 transition-transform duration-300"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="relative z-10 mt-20">
+        <div class="glass-card rounded-t-3xl">
+            <div class="max-w-7xl mx-auto px-6 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left">
+                    <div class="lg:col-span-1">
+                         <a href="#" class="inline-block text-3xl font-bold text-gray-800 mb-4">
+                            <span class="text-gradient">Aura</span><span class="text-primary">Eventz</span>
+                        </a>
+                        <p class="text-gray-600 font-secondary">
+                            Transforming events, one connection at a time.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-lg mb-4">Quick Links</h4>
+                        <ul class="space-y-3">
+                            <li><a href="#features" class="text-gray-600 hover:text-primary transition-colors">Features</a></li>
+                            <li><a href="#testimonials" class="text-gray-600 hover:text-primary transition-colors">Testimonials</a></li>
+                            <li><a href="{{ url_for('manager_login_register') }}" class="text-gray-600 hover:text-primary transition-colors">Manager Portal</a></li>
+                            <li><a href="{{ url_for('worker_login_register') }}" class="text-gray-600 hover:text-primary transition-colors">Worker Portal</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                         <h4 class="font-bold text-gray-800 text-lg mb-4">Legal</h4>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Privacy Policy</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-lg mb-4">Connect With Us</h4>
+                        <div class="flex justify-center md:justify-start space-x-4">
+                             <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full flex items-center justify-center transition-all duration-300" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full flex items-center justify-center transition-all duration-300" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full flex items-center justify-center transition-all duration-300" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-white/30 mt-8 pt-8 text-center">
+                    <p class="text-sm text-gray-500 font-secondary">
+                        &copy; 2025 AuraEventz. All rights reserved. Made with <i class="fas fa-heart text-red-500"></i> in Chennai.
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- Minimal JS section for future use (e.g., initial auth check) -->
     <script>
-        // Placeholder for any future plain JavaScript functions
-        console.log("AuraEventz landing page loaded.");
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- ENHANCEMENT: Mobile Menu Logic ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuClose = document.getElementById('mobile-menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+            const openMenu = () => mobileMenu.classList.remove('hidden');
+            const closeMenu = () => mobileMenu.classList.add('hidden');
+
+            mobileMenuButton.addEventListener('click', openMenu);
+            mobileMenuClose.addEventListener('click', closeMenu);
+            mobileMenuLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+            // --- Smooth scrolling for navigation links ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // --- Add scroll effect to navigation ---
+            const nav = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scale-95', 'opacity-95');
+                } else {
+                    nav.classList.remove('scale-95', 'opacity-95');
+                }
+            });
+
+            // --- ENHANCEMENT: Mouse Parallax Effect ---
+            const parallaxContainer = document.getElementById('parallax-container');
+            if (parallaxContainer) {
+                parallaxContainer.addEventListener('mousemove', (e) => {
+                    const { clientX, clientY } = e;
+                    const { offsetWidth, offsetHeight } = parallaxContainer;
+                    const xPos = (clientX / offsetWidth - 0.5) * 40; // Multiplier affects intensity
+                    const yPos = (clientY / offsetHeight - 0.5) * 40;
+
+                    const layers = parallaxContainer.querySelectorAll('[data-depth]');
+                    layers.forEach(layer => {
+                        const depth = layer.getAttribute('data-depth');
+                        layer.style.transform = `translateX(${xPos * depth}px) translateY(${yPos * depth}px)`;
+                    });
+                });
+            }
+
+            // --- ENHANCEMENT: Animated Stats Counter ---
+            const counters = document.querySelectorAll('.stat-counter');
+            const speed = 200; // The lower the slower
+            const observerOptions = { threshold: 0.8 };
+
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                        entry.target.classList.add('counted');
+                        const target = +entry.target.getAttribute('data-target');
+                        const suffix = entry.target.getAttribute('data-suffix') || '+';
+                        
+                        const updateCount = () => {
+                            const count = +entry.target.innerText.replace('+', '').replace('/7', '');
+                            const increment = target / speed;
+
+                            if (count < target) {
+                                entry.target.innerText = Math.ceil(count + increment) + (suffix === '/7' ? '' : '+');
+                                setTimeout(updateCount, 10);
+                            } else {
+                                entry.target.innerText = target + suffix;
+                            }
+                        };
+                        updateCount();
+                    }
+                });
+            }, observerOptions);
+
+            counters.forEach(counter => {
+                observer.observe(counter);
+            });
+            
+            console.log("✨ AuraEventz landing page loaded with enhanced UI!");
+        });
     </script>
 </body>
 </html>

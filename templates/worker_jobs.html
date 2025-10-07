@@ -1,75 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Available Jobs - AuraEventz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/manager_dashboard.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        .job-card {
-            background: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'primary': ['Poppins', 'sans-serif'],
+                        'secondary': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'primary-light': '#a5b4fc',
+                        'secondary': '#10b981',
+                        'secondary-dark': '#059669',
+                        'accent': '#f59e0b',
+                        'dark': '#1f2937',
+                        'light-gray': '#f8fafc',
+                    },
+                }
+            }
         }
-        .job-card h3 { margin-bottom: 10px; color: var(--primary-color); }
-        .job-card p { margin-bottom: 15px; }
-        .job-meta { display: flex; gap: 20px; color: #7f8c8d; margin-bottom: 15px; }
+    </script>
+
+    <style>
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #10b981 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
-<body>
-    <div class="dashboard-container">
-        <aside class="sidebar">
-            <div class="sidebar-header"><h3>AuraEventz</h3></div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="{{ url_for('worker_dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ url_for('worker_jobs') }}" class="active">Available Jobs</a></li>
-                    <li><a href="{{ url_for('worker_my_applications') }}">My Applications</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                </ul>
+
+<body class="font-primary antialiased">
+    <div class="flex h-screen bg-light-gray">
+        
+        <div class="fixed inset-0 pointer-events-none z-0">
+            <div class="absolute w-32 h-32 bg-primary/10 rounded-full blur-2xl" style="top: 10%; left: 5%;"></div>
+            <div class="absolute w-40 h-40 bg-secondary/10 rounded-full blur-2xl" style="top: 50%; right: 10%;"></div>
+            <div class="absolute w-24 h-24 bg-accent/10 rounded-full blur-2xl" style="bottom: 15%; left: 40%;"></div>
+        </div>
+
+        <aside class="w-64 flex-shrink-0 hidden md:flex flex-col bg-dark text-white p-6 font-secondary shadow-2xl relative z-10">
+            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-white mb-10 block">
+                <span class="text-gradient">Aura</span>Eventz
+            </a>
+            <nav class="space-y-3 flex-grow">
+                <a href="{{ url_for('worker_dashboard') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-primary/50 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-home fa-fw w-6 mr-3"></i> Dashboard
+                </a>
+                <a href="{{ url_for('worker_jobs') }}" class="flex items-center px-4 py-3 bg-primary rounded-lg text-white font-semibold shadow-md">
+                    <i class="fas fa-briefcase fa-fw w-6 mr-3"></i> Available Jobs
+                </a>
+                 <a href="{{ url_for('worker_my_applications') }}" class="flex items-center px-4 py-3 text-gray-300 hover:bg-primary/50 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-file-alt fa-fw w-6 mr-3"></i> My Applications
+                </a>
             </nav>
+            <div class="flex-shrink-0">
+                <a href="{{ url_for('logout') }}" class="flex items-center px-4 py-3 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-sign-out-alt fa-fw w-6 mr-3"></i> Logout
+                </a>
+            </div>
         </aside>
 
-        <main class="main-content">
-            <header class="main-header">
-                <h1>Find Your Next Event Job</h1>
-            </header>
-            
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                <div class="flash-messages">
-                {% for category, message in messages %}
-                  <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-                </div>
-              {% endif %}
-            {% endwith %}
+        <main class="flex-1 p-6 md:p-10 overflow-y-auto relative z-10">
+            <div class="max-w-4xl mx-auto">
+                <header class="mb-8">
+                    <h1 class="text-4xl font-bold text-dark">Available Jobs</h1>
+                    <p class="text-gray-500 mt-2 font-secondary">Browse open positions and apply to join amazing events.</p>
+                </header>
 
-            {% if jobs %}
-                {% for job in jobs %}
-                <div class="job-card">
-                    <h3>{{ job.title }}</h3>
-                    <div class="job-meta">
-                        <span>📍 {{ job.location }}</span>
-                        <span>💰 {{ job.salary }}</span>
-                    </div>
-                    <p>{{ job.description }}</p>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="p-4 mb-6 rounded-lg text-sm {% if category == 'danger' %}bg-red-100 text-red-800 border-l-4 border-red-500{% elif category == 'success' %}bg-green-100 text-green-800 border-l-4 border-green-500{% else %}bg-blue-100 text-blue-800 border-l-4 border-blue-500{% endif %}" role="alert">
+                            <p class="font-bold">{% if category == 'success' %}Success{% elif category == 'danger' %}Error{% else %}Info{% endif %}</p>
+                            <p>{{ message }}</p>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
 
-                    {% if job.id in applied_job_ids %}
-                        <button class="btn btn-success" disabled>✓ Applied</button>
+                <div class="space-y-6">
+                    {% if jobs %}
+                        {% for job in jobs %}
+                        <div class="bg-white/80 backdrop-blur-md rounded-xl shadow-lg border border-gray-200/50 p-6 transition-all hover:shadow-2xl hover:border-primary/50">
+                            <div class="flex flex-col sm:flex-row justify-between">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-dark">{{ job.title }}</h3>
+                                    <div class="flex items-center space-x-4 text-gray-500 mt-2 font-secondary text-sm">
+                                        <span class="flex items-center"><i class="fas fa-map-marker-alt fa-fw mr-2 text-primary"></i> {{ job.location }}</span>
+                                        <span class="flex items-center"><i class="fas fa-money-bill-wave fa-fw mr-2 text-secondary"></i> {{ job.salary }}</span>
+                                    </div>
+                                </div>
+                                <div class="mt-4 sm:mt-0 flex-shrink-0">
+                                    {% if job.id in applied_job_ids %}
+                                        <button disabled class="w-full sm:w-auto bg-secondary text-white font-bold py-2 px-5 rounded-lg cursor-not-allowed flex items-center">
+                                            <i class="fas fa-check-circle mr-2"></i> Applied
+                                        </button>
+                                    {% else %}
+                                        <form action="{{ url_for('apply_job', job_id=job.id) }}" method="POST">
+                                            <button type="submit" class="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white font-bold py-2 px-5 rounded-lg transition-colors shadow-md hover:shadow-primary/40 transform hover:-translate-y-0.5">
+                                                Apply Now
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p class="mt-4 text-gray-600 font-secondary border-t pt-4">{{ job.description }}</p>
+                        </div>
+                        {% endfor %}
                     {% else %}
-                        <form action="{{ url_for('apply_job', job_id=job.id) }}" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-primary">Apply Now</button>
-                        </form>
+                        <div class="bg-white/80 backdrop-blur-md rounded-xl shadow-lg border border-gray-200/50 p-8 text-center">
+                            <i class="fas fa-wind text-4xl text-gray-400 mb-4"></i>
+                            <h3 class="text-2xl font-bold text-dark">No Jobs Found</h3>
+                            <p class="text-gray-500 mt-2">There are currently no open jobs available. Please check back later!</p>
+                        </div>
                     {% endif %}
                 </div>
-                {% endfor %}
-            {% else %}
-                <p>There are currently no open jobs. Please check back later!</p>
-            {% endif %}
+                
+            </div>
         </main>
     </div>
 </body>
