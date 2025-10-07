@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Jobs - AuraEventz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manager_dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .job-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        .job-card h3 { margin-bottom: 10px; color: var(--primary-color); }
+        .job-card p { margin-bottom: 15px; }
+        .job-meta { display: flex; gap: 20px; color: #7f8c8d; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header"><h3>AuraEventz</h3></div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="{{ url_for('worker_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('worker_jobs') }}" class="active">Available Jobs</a></li>
+                    <li><a href="{{ url_for('worker_my_applications') }}">My Applications</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Find Your Next Event Job</h1>
+            </header>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div class="flash-messages">
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            {% if jobs %}
+                {% for job in jobs %}
+                <div class="job-card">
+                    <h3>{{ job.title }}</h3>
+                    <div class="job-meta">
+                        <span>📍 {{ job.location }}</span>
+                        <span>💰 {{ job.salary }}</span>
+                    </div>
+                    <p>{{ job.description }}</p>
+
+                    {% if job.id in applied_job_ids %}
+                        <button class="btn btn-success" disabled>✓ Applied</button>
+                    {% else %}
+                        <form action="{{ url_for('apply_job', job_id=job.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-primary">Apply Now</button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>There are currently no open jobs. Please check back later!</p>
+            {% endif %}
+        </main>
+    </div>
+</body>
+</html>
