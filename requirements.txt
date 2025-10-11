@@ -1,2 +1,5 @@
 Flask==3.0.3
 Flask-Session==0.8.0
+python-dotenv
+firebase-admin
+gunicorn
