@@ -36,26 +36,12 @@ except Exception as e:
 # --- Helper Functions ---
 
 def get_client_firebase_config():
-    """
-    Returns the necessary config for the Firebase Client SDK (JS).
-    Includes print statements for debugging on Render.
-    """
-    config = {
+    """Returns the necessary config for the Firebase Client SDK (JS)."""
+    return {
         "apiKey": os.environ.get("FIREBASE_API_KEY"),
         "authDomain": os.environ.get("FIREBASE_AUTH_DOMAIN"),
         "projectId": os.environ.get("FIREBASE_PROJECT_ID"),
     }
-    
-    # --- DEBUG PRINTS ---
-    # These will show up in your Render logs
-    print("--- DEBUGGING FIREBASE CLIENT CONFIG ---")
-    print(f"API Key is present: {config['apiKey'] is not None}")
-    print(f"Auth Domain is present: {config['authDomain'] is not None}")
-    print(f"Project ID is present: {config['projectId'] is not None}")
-    print(f"Final config object being sent to template: {config}")
-    print("--- END DEBUGGING ---")
-    
-    return config
 
 def login_required(required_role=None):
     """Checks if the user is logged in and has the required role."""
