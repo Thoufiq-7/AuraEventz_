@@ -18,7 +18,7 @@ Streamline your event staffing from start to finish. Post jobs, manage applicant
 
 Check out the live version of the application hosted on Render!
 
-**[Visit AuraEventz Live](https://your-render-url-goes-here.com)** 
+**[Visit AuraEventz Live](https://auraeventz.onrender.com)** 
 
 ## ✨ Key Features
 
