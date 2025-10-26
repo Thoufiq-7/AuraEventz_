@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AuraEventz - Next-Gen Event Management</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@100..900&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -48,98 +51,174 @@
     <style>
         .glass-nav {
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1);
         }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(3deg); }
-            50% { transform: translateY(-20px) rotate(-3deg); }
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(3deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(-3deg);
+            }
         }
+
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
-            100% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8), 0 0 60px rgba(99, 102, 241, 0.4); }
+            0% {
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 0 40px rgba(99, 102, 241, 0.8), 0 0 60px rgba(99, 102, 241, 0.4);
+            }
         }
+
         @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            transition: all 0.3s ease; position: relative; overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
+
         .btn-primary:before {
-            content: ''; position: absolute; top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s;
         }
-        .btn-primary:hover:before { left: 100%; }
+
+        .btn-primary:hover:before {
+            left: 100%;
+        }
+
         .btn-secondary {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%);
             backdrop-filter: blur(10px);
             border: 2px solid rgba(99, 102, 241, 0.3);
         }
+
         .hero-bg {
-            background-image: 
+            background-image:
                 radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
         }
-        .floating-element { position: absolute; animation: float 6s ease-in-out infinite; }
-        .floating-element:nth-child(2) { animation-delay: -2s; }
-        .floating-element:nth-child(3) { animation-delay: -4s; }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(2) {
+            animation-delay: -2s;
+        }
+
+        .floating-element:nth-child(3) {
+            animation-delay: -4s;
+        }
+
         .text-gradient {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #10b981 100%);
-            -webkit-background-clip: text; background-clip: text;
+            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             background-size: 200% 200%;
             animation: gradientShift 3s ease-in-out infinite;
         }
-        .hover-lift { transition: all 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); }
+
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
+
 <body class="font-primary antialiased min-h-screen hero-bg relative overflow-x-hidden bg-light-gray">
 
     <div class="fixed inset-0 pointer-events-none z-0">
-        <div class="floating-element w-32 h-32 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-xl" style="top: 20%; left: 10%;"></div>
-        <div class="floating-element w-24 h-24 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-full blur-xl" style="top: 60%; right: 15%;"></div>
-        <div class="floating-element w-40 h-40 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-xl" style="bottom: 20%; left: 60%;"></div>
+        <div class="floating-element w-32 h-32 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-xl"
+            style="top: 20%; left: 10%;"></div>
+        <div class="floating-element w-24 h-24 bg-gradient-to-r from-secondary/10 to-accent/10 rounded-full blur-xl"
+            style="top: 60%; right: 15%;"></div>
+        <div class="floating-element w-40 h-40 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-xl"
+            style="bottom: 20%; left: 60%;"></div>
     </div>
 
     <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <nav id="navbar" class="glass-nav max-w-7xl mx-auto mt-6 px-8 py-5 rounded-2xl shadow-xl hover-lift">
             <div class="flex justify-between items-center">
-                <a href="#" class="text-4xl font-bold text-gray-800 tracking-wide hover:scale-105 transition-transform duration-300">
+                <a href="#"
+                    class="text-4xl font-bold text-gray-800 tracking-wide hover:scale-105 transition-transform duration-300">
                     <span class="text-gradient">Aura</span><span class="text-primary">Eventz</span>
                 </a>
-                
+
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#features" class="text-gray-700 hover:text-primary font-medium transition-colors duration-300">Features</a>
-                    <a href="#testimonials" class="text-gray-700 hover:text-primary font-medium transition-colors duration-300">Testimonials</a>
-                    <a href="#contact" class="text-gray-700 hover:text-primary font-medium transition-colors duration-300">Contact</a>
+                    <a href="#features"
+                        class="text-gray-700 hover:text-primary font-medium transition-colors duration-300">Features</a>
+                    <a href="#testimonials"
+                        class="text-gray-700 hover:text-primary font-medium transition-colors duration-300">Testimonials</a>
+                    <a href="#contact"
+                        class="text-gray-700 hover:text-primary font-medium transition-colors duration-300">Contact</a>
                 </div>
 
-                <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-primary" aria-label="Open menu">
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-primary"
+                    aria-label="Open menu">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
         </nav>
     </header>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-gray-900 bg-opacity-90 backdrop-blur-sm z-40 hidden flex-col items-center justify-center space-y-8">
-        <button id="mobile-menu-close" class="absolute top-8 right-8 text-white text-3xl" aria-label="Close menu">&times;</button>
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-gray-900 bg-opacity-90 backdrop-blur-sm z-40 hidden flex flex-col items-center justify-center space-y-8">
+        <button id="mobile-menu-close" class="absolute top-8 right-8 text-white text-3xl"
+            aria-label="Close menu">&times;</button>
         <a href="#features" class="mobile-menu-link text-3xl font-bold text-white">Features</a>
         <a href="#testimonials" class="mobile-menu-link text-3xl font-bold text-white">Testimonials</a>
         <a href="#contact" class="mobile-menu-link text-3xl font-bold text-white">Contact</a>
@@ -147,9 +226,10 @@
 
     <section class="pt-40 pb-20 md:pt-56 md:pb-32 max-w-7xl mx-auto px-6 relative z-10">
         <div id="hero-content" class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
+
             <div class="text-center lg:text-left animate-fade-in-up">
-                <div class="inline-flex items-center px-4 py-2 rounded-full glass-card mb-8 text-sm font-medium text-primary">
+                <div
+                    class="inline-flex items-center px-4 py-2 rounded-full glass-card mb-8 text-sm font-medium text-primary">
                     <i class="fas fa-sparkles mr-2"></i>
                     <span>Next-Gen Event Management</span>
                 </div>
@@ -158,25 +238,30 @@
                     Your <span class="text-gradient">Event</span>,<br>
                     <span class="relative">
                         Managed
-                        <div class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+                        <div
+                            class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary rounded-full">
+                        </div>
                     </span>.
                 </h1>
-                
-                <p class="mt-6 text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto lg:mx-0 mb-12 leading-relaxed font-secondary">
-                    The ultimate platform connecting event visionaries with a skilled workforce. 
+
+                <p
+                    class="mt-6 text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto lg:mx-0 mb-12 leading-relaxed font-secondary">
+                    The ultimate platform connecting event visionaries with a skilled workforce.
                     <span class="text-primary font-semibold">Streamline your staffing</span> from start to finish.
                 </p>
-                
+
                 <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-6">
-                    <a href="{{ url_for('manager_login_register') }}" 
-                       class="group btn-primary w-full sm:w-auto px-12 py-5 text-lg font-bold text-white rounded-2xl shadow-2xl hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50 animate-pulse-glow">
+                    <a href="{{ url_for('manager_login_register') }}"
+                        class="group btn-primary w-full sm:w-auto px-12 py-5 text-lg font-bold text-white rounded-2xl shadow-2xl hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50 animate-pulse-glow">
                         <i class="fas fa-crown mr-3"></i> I'm an Event Manager
-                        <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
+                        <i
+                            class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
                     </a>
-                    <a href="{{ url_for('worker_login_register') }}" 
-                       class="group btn-secondary w-full sm:w-auto px-12 py-5 text-lg font-bold text-primary rounded-2xl hover:bg-primary/10 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50 shadow-lg">
+                    <a href="{{ url_for('worker_login_register') }}"
+                        class="group btn-secondary w-full sm:w-auto px-12 py-5 text-lg font-bold text-primary rounded-2xl hover:bg-primary/10 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50 shadow-lg">
                         <i class="fas fa-users mr-3"></i> I'm an Event Worker
-                        <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
+                        <i
+                            class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
                     </a>
                 </div>
 
@@ -190,7 +275,8 @@
                         <div class="text-sm text-gray-600 font-secondary">Happy Clients</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-3xl font-bold text-accent stat-counter" data-target="24" data-suffix="/7">24/7</div>
+                        <div class="text-3xl font-bold text-accent stat-counter" data-target="24" data-suffix="/7">24/7
+                        </div>
                         <div class="text-sm text-gray-600 font-secondary">Support</div>
                     </div>
                 </div>
@@ -198,15 +284,39 @@
 
             <div class="hidden lg:flex justify-center animate-fade-in-up" style="animation-delay: 0.3s;">
                 <div class="relative" id="parallax-container">
-                    <div class="w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50 transform transition-transform duration-700 ease-out animate-float hover-lift glass-card" data-depth="0.2">
-                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'" alt="Digital event planning dashboard" class="w-full h-auto object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"></div>
+                    <div class="w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50 transform transition-transform duration-700 ease-out animate-float hover-lift glass-card"
+                        data-depth="0.2">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'"
+                            alt="Digital event planning dashboard" class="w-full h-auto object-cover">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none">
+                        </div>
                     </div>
-                    <div class="absolute -top-6 -right-6 glass-card p-4 rounded-xl shadow-lg animate-float" style="animation-delay: -1s;" data-depth="-0.3">
-                        <div class="flex items-center space-x-3"><div class="w-10 h-10 bg-gradient-to-r from-secondary to-secondary-dark rounded-full flex items-center justify-center"><i class="fas fa-check text-white text-sm"></i></div><div><div class="text-xs font-semibold text-gray-800">Real-time Updates</div><div class="text-xs text-gray-600">Live event tracking</div></div></div>
+                    <div class="absolute -top-6 -right-6 glass-card p-4 rounded-xl shadow-lg animate-float"
+                        style="animation-delay: -1s;" data-depth="-0.3">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-r from-secondary to-secondary-dark rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-gray-800">Real-time Updates</div>
+                                <div class="text-xs text-gray-600">Live event tracking</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="absolute -bottom-6 -left-6 glass-card p-4 rounded-xl shadow-lg animate-float" style="animation-delay: -2s;" data-depth="-0.4">
-                        <div class="flex items-center space-x-3"><div class="w-10 h-10 bg-gradient-to-r from-accent to-orange-500 rounded-full flex items-center justify-center"><i class="fas fa-bolt text-white text-sm"></i></div><div><div class="text-xs font-semibold text-gray-800">Smart Matching</div><div class="text-xs text-gray-600">AI-powered staffing</div></div></div>
+                    <div class="absolute -bottom-6 -left-6 glass-card p-4 rounded-xl shadow-lg animate-float"
+                        style="animation-delay: -2s;" data-depth="-0.4">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-r from-accent to-orange-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-bolt text-white text-sm"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-gray-800">Smart Matching</div>
+                                <div class="text-xs text-gray-600">AI-powered staffing</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -214,7 +324,58 @@
     </section>
 
     <section id="features" class="py-20 relative z-10">
-        </section>
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                    The <span class="text-gradient">Tools</span> You Need
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto font-secondary">
+                    All the essential features to manage your event staffing from start to finish.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <div class="glass-card p-8 rounded-2xl hover-lift">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                        <i class="fas fa-calendar-plus text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Post Events in Seconds</h3>
+                    <p class="text-gray-700 font-secondary leading-relaxed">
+                        Our simple, clear form lets you **create** and post new event jobs instantly. Add descriptions,
+                        dates, locations, and staff requirements with just a few clicks.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl hover-lift">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-r from-secondary to-secondary-dark text-white rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                        <i class="fas fa-tasks text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Centralized Dashboard</h3>
+                    <p class="text-gray-700 font-secondary leading-relaxed">
+                        **Read** and review all your events from one powerful dashboard. See upcoming schedules, view
+                        applicant lists, and track your staffing status at a glance.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl hover-lift">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-r from-accent to-orange-500 text-white rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                        <i class="fas fa-users-cog text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Manage Staff & Events</h3>
+                    <p class="text-gray-700 font-secondary leading-relaxed">
+                        Easily **update** event details, or **manage** your worker roster. Approve or deny applicants,
+                        assign staff to events, and remove listings as needed.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <section id="testimonials" class="py-20 relative z-10">
         <div class="max-w-7xl mx-auto px-6">
@@ -229,9 +390,12 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="glass-card p-8 rounded-2xl hover-lift flex flex-col">
                     <i class="fas fa-quote-left text-primary text-3xl mb-4"></i>
-                    <p class="text-gray-700 font-secondary mb-6 flex-grow">"AuraEventz transformed how we staff our festivals. The AI matching is incredibly accurate and saved us countless hours. It's a game-changer!"</p>
+                    <p class="text-gray-700 font-secondary mb-6 flex-grow">"AuraEventz transformed how we staff our
+                        festivals. The AI matching is incredibly accurate and saved us countless hours. It's a
+                        game-changer!"</p>
                     <div class="flex items-center mt-auto">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria S." class="w-12 h-12 rounded-full mr-4 border-2 border-primary-light">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria S."
+                            class="w-12 h-12 rounded-full mr-4 border-2 border-primary-light">
                         <div>
                             <h4 class="font-bold text-gray-900">Maria S.</h4>
                             <p class="text-sm text-gray-600">Festival Organizer</p>
@@ -240,9 +404,12 @@
                 </div>
                 <div class="glass-card p-8 rounded-2xl hover-lift flex flex-col">
                     <i class="fas fa-quote-left text-primary text-3xl mb-4"></i>
-                    <p class="text-gray-700 font-secondary mb-6 flex-grow">"The interface is so intuitive. I posted a job for my corporate event and had qualified candidates applying within minutes. Highly recommended!"</p>
+                    <p class="text-gray-700 font-secondary mb-6 flex-grow">"The interface is so intuitive. I posted a
+                        job for my corporate event and had qualified candidates applying within minutes. Highly
+                        recommended!"</p>
                     <div class="flex items-center mt-auto">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David L." class="w-12 h-12 rounded-full mr-4 border-2 border-primary-light">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David L."
+                            class="w-12 h-12 rounded-full mr-4 border-2 border-primary-light">
                         <div>
                             <h4 class="font-bold text-gray-900">David L.</h4>
                             <p class="text-sm text-gray-600">Corporate Event Planner</p>
@@ -251,9 +418,12 @@
                 </div>
                 <div class="glass-card p-8 rounded-2xl hover-lift flex flex-col">
                     <i class="fas fa-quote-left text-primary text-3xl mb-4"></i>
-                    <p class="text-gray-700 font-secondary mb-6 flex-grow">"As a freelance worker, this platform has been incredible for finding gigs. The payment system is secure and I always get paid on time."</p>
+                    <p class="text-gray-700 font-secondary mb-6 flex-grow">"As a freelance worker, this platform has
+                        been incredible for finding gigs. The payment system is secure and I always get paid on time."
+                    </p>
                     <div class="flex items-center mt-auto">
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Chloe T." class="w-12 h-12 rounded-full mr-4 border-2 border-primary-light">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Chloe T."
+                            class="w-12 h-12 rounded-full mr-4 border-2 border-primary-light">
                         <div>
                             <h4 class="font-bold text-gray-900">Chloe T.</h4>
                             <p class="text-sm text-gray-600">Event Staff</p>
@@ -264,7 +434,7 @@
         </div>
     </section>
 
-      <section id="contact" class="py-20 relative z-10">
+    <section id="contact" class="py-20 relative z-10">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
                 <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -281,21 +451,31 @@
                         <h3 class="text-2xl font-bold text-gray-900 mb-6">Contact Information</h3>
                         <div class="space-y-6">
                             <div class="flex items-start space-x-4">
-                                <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0"><i class="fas fa-map-marker-alt text-xl"></i></div>
+                                <div
+                                    class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-xl"></i>
+                                </div>
                                 <div>
                                     <h4 class="font-semibold text-gray-800">Our Office</h4>
-                                    <p class="text-gray-600 font-secondary">123 Event Lane, Chennai, TN 600001, India</p>
+                                    <p class="text-gray-600 font-secondary">123 Event Lane, Chennai, TN 600001, India
+                                    </p>
                                 </div>
                             </div>
                             <div class="flex items-start space-x-4">
-                                <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope text-xl"></i></div>
+                                <div
+                                    class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-envelope text-xl"></i>
+                                </div>
                                 <div>
                                     <h4 class="font-semibold text-gray-800">Email Us</h4>
                                     <p class="text-gray-600 font-secondary">hello@auraeventz.com</p>
                                 </div>
                             </div>
                             <div class="flex items-start space-x-4">
-                                <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0"><i class="fas fa-phone-alt text-xl"></i></div>
+                                <div
+                                    class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-phone-alt text-xl"></i>
+                                </div>
                                 <div>
                                     <h4 class="font-semibold text-gray-800">Call Us</h4>
                                     <p class="text-gray-600 font-secondary">+91 44 1234 5678</p>
@@ -304,7 +484,10 @@
                         </div>
 
                         <div class="mt-8 rounded-2xl overflow-hidden shadow-lg border border-white/30">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124368.42434937214!2d80.19941933471016!3d13.047872652614945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ea4f7d3361%3A0x6e61a70b6863d433!2sChennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1696697843210!5m2!1sen!2sin" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124368.42434937214!2d80.19941933471016!3d13.047872652614945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265ea4f7d3361%3A0x6e61a70b6863d433!2sChennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1696697843210!5m2!1sen!2sin"
+                                width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
 
@@ -313,24 +496,34 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label for="name" class="font-semibold text-gray-700 block mb-2">Full Name</label>
-                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300" placeholder="John Doe">
+                                <input type="text" id="name"
+                                    class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300"
+                                    placeholder="John Doe">
                             </div>
                             <div>
                                 <label for="email" class="font-semibold text-gray-700 block mb-2">Email Address</label>
-                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300" placeholder="you@example.com">
+                                <input type="email" id="email"
+                                    class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300"
+                                    placeholder="you@example.com">
                             </div>
                         </div>
                         <div class="mt-6">
                             <label for="subject" class="font-semibold text-gray-700 block mb-2">Subject</label>
-                            <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300" placeholder="Regarding an event...">
+                            <input type="text" id="subject"
+                                class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300"
+                                placeholder="Regarding an event...">
                         </div>
                         <div class="mt-6">
                             <label for="message" class="font-semibold text-gray-700 block mb-2">Message</label>
-                            <textarea id="message" rows="5" class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300" placeholder="Your message here..."></textarea>
+                            <textarea id="message" rows="5"
+                                class="w-full px-4 py-3 rounded-lg bg-white/50 border-2 border-transparent focus:border-primary focus:bg-white focus:outline-none transition-all duration-300"
+                                placeholder="Your message here..."></textarea>
                         </div>
                         <div class="mt-6">
-                            <button type="submit" class="group btn-primary w-full px-8 py-4 text-lg font-bold text-white rounded-xl shadow-lg hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50">
-                                Send Message <i class="fas fa-paper-plane ml-2 group-hover:translate-x-1 transition-transform duration-300"></i>
+                            <button type="submit"
+                                class="group btn-primary w-full px-8 py-4 text-lg font-bold text-white rounded-xl shadow-lg hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50">
+                                Send Message <i
+                                    class="fas fa-paper-plane ml-2 group-hover:translate-x-1 transition-transform duration-300"></i>
                             </button>
                         </div>
                     </form>
@@ -343,7 +536,7 @@
             <div class="max-w-7xl mx-auto px-6 py-12">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left">
                     <div class="lg:col-span-1">
-                         <a href="#" class="inline-block text-3xl font-bold text-gray-800 mb-4">
+                        <a href="#" class="inline-block text-3xl font-bold text-gray-800 mb-4">
                             <span class="text-gradient">Aura</span><span class="text-primary">Eventz</span>
                         </a>
                         <p class="text-gray-600 font-secondary">
@@ -353,29 +546,41 @@
                     <div>
                         <h4 class="font-bold text-gray-800 text-lg mb-4">Quick Links</h4>
                         <ul class="space-y-3">
-                            <li><a href="#features" class="text-gray-600 hover:text-primary transition-colors">Features</a></li>
-                            <li><a href="#testimonials" class="text-gray-600 hover:text-primary transition-colors">Testimonials</a></li>
-                            <li><a href="{{ url_for('manager_login_register') }}" class="text-gray-600 hover:text-primary transition-colors">Manager Portal</a></li>
-                            <li><a href="{{ url_for('worker_login_register') }}" class="text-gray-600 hover:text-primary transition-colors">Worker Portal</a></li>
+                            <li><a href="#features"
+                                    class="text-gray-600 hover:text-primary transition-colors">Features</a></li>
+                            <li><a href="#testimonials"
+                                    class="text-gray-600 hover:text-primary transition-colors">Testimonials</a></li>
+                            <li><a href="{{ url_for('manager_login_register') }}"
+                                    class="text-gray-600 hover:text-primary transition-colors">Manager Portal</a></li>
+                            <li><a href="{{ url_for('worker_login_register') }}"
+                                    class="text-gray-600 hover:text-primary transition-colors">Worker Portal</a></li>
                         </ul>
                     </div>
                     <div>
-                         <h4 class="font-bold text-gray-800 text-lg mb-4">Legal</h4>
+                        <h4 class="font-bold text-gray-800 text-lg mb-4">Legal</h4>
                         <ul class="space-y-3">
-                            <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Privacy Policy</a></li>
-                            <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Terms of Service</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Privacy
+                                    Policy</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Terms of
+                                    Service</a></li>
                         </ul>
                     </div>
                     <div>
                         <h4 class="font-bold text-gray-800 text-lg mb-4">Connect With Us</h4>
                         <div class="flex justify-center md:justify-start space-x-4">
-                             <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full flex items-center justify-center transition-all duration-300" aria-label="Twitter">
+                            <a href="#"
+                                class="w-10 h-10 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full flex items-center justify-center transition-all duration-300"
+                                aria-label="Twitter">
                                 <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full flex items-center justify-center transition-all duration-300" aria-label="LinkedIn">
+                            <a href="#"
+                                class="w-10 h-10 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full flex items-center justify-center transition-all duration-300"
+                                aria-label="LinkedIn">
                                 <i class="fab fa-linkedin"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full flex items-center justify-center transition-all duration-300" aria-label="Instagram">
+                            <a href="#"
+                                class="w-10 h-10 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full flex items-center justify-center transition-all duration-300"
+                                aria-label="Instagram">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </div>
@@ -384,7 +589,8 @@
 
                 <div class="border-t border-white/30 mt-8 pt-8 text-center">
                     <p class="text-sm text-gray-500 font-secondary">
-                        &copy; 2025 AuraEventz. All rights reserved. Made with <i class="fas fa-heart text-red-500"></i> in Chennai.
+                        &copy; 2025 AuraEventz. All rights reserved. Made with <i class="fas fa-heart text-red-500"></i>
+                        in Chennai.
                     </p>
                 </div>
             </div>
@@ -393,48 +599,70 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- ENHANCEMENT: Mobile Menu Logic ---
+
+            // --- Mobile Menu Logic ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenuClose = document.getElementById('mobile-menu-close');
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
 
-            const openMenu = () => mobileMenu.classList.remove('hidden');
-            const closeMenu = () => mobileMenu.classList.add('hidden');
+            const openMenu = () => {
+                if (mobileMenu) mobileMenu.classList.remove('hidden');
+            };
 
-            mobileMenuButton.addEventListener('click', openMenu);
-            mobileMenuClose.addEventListener('click', closeMenu);
-            mobileMenuLinks.forEach(link => link.addEventListener('click', closeMenu));
+            const closeMenu = () => {
+                if (mobileMenu) mobileMenu.classList.add('hidden');
+            };
 
-            // --- Smooth scrolling for navigation links ---
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            // Attach listeners only if elements exist
+            if (mobileMenuButton) mobileMenuButton.addEventListener('click', openMenu);
+            if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMenu);
+
+            // Add listener to all mobile links to close menu when clicked
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // --- Smooth scrolling for ALL anchor links ---
+            // We select links that start with #, but are NOT just "#"
+            const scrollLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
+
+            scrollLinks.forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
+                    e.preventDefault(); // Stop the default jump
+
+                    const href = this.getAttribute('href');
+                    const target = document.querySelector(href);
+
+                    // Scroll to the target element
                     if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
                     }
                 });
             });
 
             // --- Add scroll effect to navigation ---
             const nav = document.getElementById('navbar');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    nav.classList.add('scale-95', 'opacity-95');
-                } else {
-                    nav.classList.remove('scale-95', 'opacity-95');
-                }
-            });
+            if (nav) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        nav.classList.add('scale-95', 'opacity-95');
+                    } else {
+                        nav.classList.remove('scale-95', 'opacity-95');
+                    }
+                });
+            }
 
-            // --- ENHANCEMENT: Mouse Parallax Effect ---
+            // --- Mouse Parallax Effect ---
             const parallaxContainer = document.getElementById('parallax-container');
             if (parallaxContainer) {
                 parallaxContainer.addEventListener('mousemove', (e) => {
-                    const { clientX, clientY } = e;
-                    const { offsetWidth, offsetHeight } = parallaxContainer;
-                    const xPos = (clientX / offsetWidth - 0.5) * 40; // Multiplier affects intensity
-                    const yPos = (clientY / offsetHeight - 0.5) * 40;
+                    const bounds = parallaxContainer.getBoundingClientRect();
+                    const xPos = ((e.clientX - bounds.left) / bounds.width - 0.5) * 40;
+                    const yPos = ((e.clientY - bounds.top) / bounds.height - 0.5) * 40;
 
                     const layers = parallaxContainer.querySelectorAll('[data-depth]');
                     layers.forEach(layer => {
@@ -444,40 +672,44 @@
                 });
             }
 
-            // --- ENHANCEMENT: Animated Stats Counter ---
+            // --- Animated Stats Counter ---
             const counters = document.querySelectorAll('.stat-counter');
-            const speed = 200; // The lower the slower
-            const observerOptions = { threshold: 0.8 };
+            if (counters.length > 0) {
+                const speed = 200;
+                const observerOptions = { threshold: 0.8 };
 
-            const counterObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
-                        entry.target.classList.add('counted');
-                        const target = +entry.target.getAttribute('data-target');
-                        const suffix = entry.target.getAttribute('data-suffix') || '+';
-                        
-                        const updateCount = () => {
-                            const count = +entry.target.innerText.replace('+', '').replace('/7', '');
-                            const increment = target / speed;
+                const counterObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                            entry.target.classList.add('counted');
+                            const target = +entry.target.getAttribute('data-target');
+                            const suffix = entry.target.getAttribute('data-suffix') || '+';
 
-                            if (count < target) {
-                                entry.target.innerText = Math.ceil(count + increment) + (suffix === '/7' ? '' : '+');
-                                setTimeout(updateCount, 10);
-                            } else {
-                                entry.target.innerText = target + suffix;
-                            }
-                        };
-                        updateCount();
-                    }
+                            const updateCount = () => {
+                                const count = +entry.target.innerText.replace('+', '').replace('/7', '');
+                                const increment = target / speed;
+
+                                if (count < target) {
+                                    entry.target.innerText = Math.ceil(count + increment) + (suffix === '/7' ? '' : '+');
+                                    setTimeout(updateCount, 10);
+                                } else {
+                                    entry.target.innerText = target + suffix;
+                                }
+                            };
+                            updateCount();
+                        }
+                    });
+                }, observerOptions);
+
+                // This fixes the 'observer' not defined bug
+                counters.forEach(counter => {
+                    counterObserver.observe(counter);
                 });
-            }, observerOptions);
+            }
 
-            counters.forEach(counter => {
-                observer.observe(counter);
-            });
-            
-            console.log("✨ AuraEventz landing page loaded with enhanced UI!");
+            console.log("✨ AuraEventz landing page loaded with all scripts fixed!");
         });
     </script>
 </body>
+
 </html>
